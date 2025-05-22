@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.grinstitute.quiz.R
+import com.grinstitute.quiz.MainActivity
+import com.grinstitute.quiz.database.adapter.StudyQuestionAdapter
+import com.grinstitute.quiz.database.adapter.TabAdapter
 import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.FragmentStudyBinding
 
@@ -20,16 +22,18 @@ private const val ARG_PARAM2 = "param2"
 
 class Study : Fragment() {
     // TODO: Rename and change types of parameters
+    private lateinit var name: String
     private lateinit var questions: ArrayList<Question>
     private lateinit var binding: FragmentStudyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                questions = it.getParcelableArrayList(ARG_PARAM1, Question::class.java)!!
+            name = it.getString(ARG_PARAM1)!!
+            questions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelableArrayList(ARG_PARAM2, Question::class.java)!!
             } else {
-                questions = it.getParcelableArrayList(ARG_PARAM1)!!
+                it.getParcelableArrayList(ARG_PARAM2)!!
             }
         }
     }
@@ -44,21 +48,41 @@ class Study : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        (requireActivity() as AppCompatActivity).supportActionBar?.title = name
+        val activity = requireActivity() as MainActivity
+        activity.binding.toolbarTitle.text = name
+        activity.binding.toolbarTitle.isSelected = true
         binding.tabRecycler.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        val tabAdapter = TabAdapter(tabList) { position ->
-            questionPager.smoothScrollToPosition(position)
+        val tabAdapter = TabAdapter(questions) { position ->
+            binding.questionPager.scrollToPosition(position)
         }
-        tabRecycler.adapter = tabAdapter
+        binding.tabRecycler.adapter = tabAdapter
 
-//        (requireActivity() as AppCompatActivity).supportActionBar?.title = questions.size.toString()
+        binding.questionPager.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.questionPager.adapter = StudyQuestionAdapter(questions)
+        binding.questionPager.setHasFixedSize(true)
+
+        PagerSnapHelper().attachToRecyclerView(binding.questionPager)
+
+        binding.questionPager.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val position = (recyclerView.layoutManager as LinearLayoutManager)
+                        .findFirstCompletelyVisibleItemPosition()
+                    tabAdapter.setSelected(position)
+                    binding.tabRecycler.scrollToPosition(position)
+                }
+            }
+        })
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: ArrayList<Question>) =
+        fun newInstance(param1: String, param2: ArrayList<Question>) =
             Study().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(ARG_PARAM1, param1)
+                    putString(ARG_PARAM1,param1)
+                    putParcelableArrayList(ARG_PARAM2, param2)
                 }
             }
     }

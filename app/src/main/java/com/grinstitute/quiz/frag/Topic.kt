@@ -59,9 +59,11 @@ class Topic : Fragment() {
         activity.binding.toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack() // Go back
         }
-        activity.supportActionBar?.title = name
-        if(topicList.size < 1)
-            binding.shimmerView.visibility = View.VISIBLE
+//        activity.supportActionBar?.title = name
+        activity.binding.toolbarTitle.text = name
+        activity.binding.toolbarTitle.isSelected = true
+        binding.topicRecycler.visibility = View.GONE
+        binding.shimmerView.visibility = View.VISIBLE
         binding.topicRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.topicRecycler.adapter = adapter
         binding.testLayout.visibility = when (type) {
@@ -93,6 +95,7 @@ class Topic : Fragment() {
                     }
                 }
                 binding.shimmerView.visibility = View.GONE
+                binding.topicRecycler.visibility = View.VISIBLE
             }
         }
     }

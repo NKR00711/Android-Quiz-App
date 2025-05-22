@@ -44,15 +44,15 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
                 }
                 val fragment = when (fragment.type) {
                     1 -> {//Study
-                        Study.newInstance(questionMap[topicList[position].id]!!)
+                        Study.newInstance(topicList[position].name,questionMap[topicList[position].id]!!)
                     }
 
                     2 -> {//Practice
-                        Practice.newInstance(questionMap[topicList[position].id]!!)
+                        Practice.newInstance(topicList[position].name,questionMap[topicList[position].id]!!)
                     }
 
                     else -> {//Test
-                        Test.newInstance(questionMap[topicList[position].id]!!)
+                        Test.newInstance(topicList[position].name,questionMap[topicList[position].id]!!)
                     }
                 }
                 this.fragment.parentFragmentManager.beginTransaction().replace(R.id.fragmentMain,fragment).addToBackStack(null).commit()
@@ -69,11 +69,12 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
 
         fun bind(document: Category){
             binding.categoryName.text = document.name
+            binding.categoryName.isSelected = true
             binding.categoryImage.load(document.image)
             if(fragment.type == 3){
                 testSelect.visibility = View.VISIBLE
             }
-            binding.questionCount.text = questionMap[document.id]?.size.toString()
+            binding.questionCount.text = "${questionMap[document.id]?.size.toString()} Questions"
         }
     }
 

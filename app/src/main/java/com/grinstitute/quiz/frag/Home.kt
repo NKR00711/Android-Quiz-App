@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
@@ -75,13 +76,18 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
+//        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
         binding.homeRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.homeRecycler.adapter = adapter
         val activity = requireActivity() as MainActivity
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        activity.binding.toolbarTitle.text = getString(R.string.app_name)
+        activity.binding.toolbarTitle.isSelected = true
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         activity.actionBarToggle.isDrawerIndicatorEnabled = true
         activity.actionBarToggle.syncState()
+        activity.binding.toolbar.setNavigationOnClickListener {
+            activity.binding.main.openDrawer(GravityCompat.START)
+        }
     }
 
     companion object {

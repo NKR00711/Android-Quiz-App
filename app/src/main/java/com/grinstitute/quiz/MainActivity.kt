@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.internal.ToolbarUtils
 import com.google.firebase.FirebaseApp
 import com.grinstitute.quiz.database.DataBaseManager
 import com.grinstitute.quiz.databinding.ActivityMainBinding
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             actionBarToggle = ActionBarDrawerToggle(this@MainActivity, main,toolbar, 0, 0)
             actionBarToggle.drawerArrowDrawable.color = ContextCompat.getColor(applicationContext, android.R.color.white)
             main.addDrawerListener(actionBarToggle)
+            main.isSelected = true
             actionBarToggle.syncState()
 
             navView.setNavigationItemSelectedListener { menuItem ->

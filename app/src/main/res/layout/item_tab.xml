@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tabCard"
@@ -10,11 +10,11 @@
     android:layout_margin="@dimen/_4sdp">
 
     <TextView
-        android:id="@+id/tabTitle"
+        android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/_6sdp"
         android:textSize="@dimen/_12sdp"
         android:textColor="@color/black"
         android:text=""/>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
