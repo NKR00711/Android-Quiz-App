@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<vector xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:width="@dimen/_400sdp"-->
+<!--    android:height="@dimen/_600sdp"-->
+<!--    android:viewportWidth="360"-->
+<!--    android:viewportHeight="640">-->
+<!--    <path-->
+<!--        android:fillColor="#3F51B5"-->
+<!--        android:pathData="M0,0 L0,500 Q180,600 360,500 L360,0 Z" />-->
+<!--</vector>-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+android:width="@dimen/_500sdp"
+android:height="@dimen/_600sdp"
+android:viewportWidth="360"
+android:viewportHeight="640">
+
+<!-- Background base color -->
+<path
+    android:fillColor="?colorPrimary"
+    android:pathData="M0,0h360v640h-360z" />
+
+<!-- First wave (darker) -->
+<path
+    android:fillColor="?colorPrimaryDark"
+    android:pathData="M0,480 Q90,520 180,480 T360,480 L360,640 L0,640 Z" />
+
+<!-- Second wave (lighter) -->
+<path
+    android:fillColor="@color/quiz_background"
+    android:pathData="M0,500 Q90,540 180,500 T360,500 L360,640 L0,640 Z" />
+</vector>
