@@ -15,11 +15,11 @@ import com.grinstitute.quiz.databinding.ActivityMainBinding
 import com.grinstitute.quiz.frag.Home
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var actionBarToggle: ActionBarDrawerToggle
+    lateinit var actionBarToggle: ActionBarDrawerToggle
     companion object {
         var dataBaseManager = DataBaseManager()
     }
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(applicationContext)

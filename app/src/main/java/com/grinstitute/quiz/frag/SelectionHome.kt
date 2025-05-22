@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.grinstitute.quiz.MainActivity
 import com.grinstitute.quiz.R
 import com.grinstitute.quiz.databinding.FragmentSelectionHomeBinding
 
@@ -24,13 +25,6 @@ class SelectionHome : Fragment() {
             name = it.getString(ARG_PARAM1)
             dbName = it.getString(ARG_PARAM2)
         }
-//        dataBaseManager.getSnapShot(requireContext(), dbName+CATEGORY){
-//            if (it != null) {
-//                for (i in it.children) {
-//                    val category = i.getValue(Category::class.java)
-//                }
-//            }
-//        }
     }
 
     override fun onCreateView(
@@ -43,17 +37,21 @@ class SelectionHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = name
+        val activity = requireActivity() as MainActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        activity.actionBarToggle.isDrawerIndicatorEnabled = true
+        activity.actionBarToggle.syncState()
+        activity.supportActionBar?.title = name
         binding.study.setOnClickListener { view ->
-            val fragment = Study.newInstance(name!!,dbName!!)
+            val fragment = Topic.newInstance(name!!,dbName!!,1)
             parentFragmentManager.beginTransaction().replace(R.id.fragmentMain,fragment).addToBackStack(null).commit()
         }
         binding.practice.setOnClickListener { view ->
-            val fragment = Practice.newInstance(name!!,dbName!!)
+            val fragment = Topic.newInstance(name!!,dbName!!,2)
             parentFragmentManager.beginTransaction().replace(R.id.fragmentMain,fragment).addToBackStack(null).commit()
         }
         binding.test.setOnClickListener { view ->
-            val fragment = Test.newInstance(name!!,dbName!!)
+            val fragment = Topic.newInstance(name!!,dbName!!,3)
             parentFragmentManager.beginTransaction().replace(R.id.fragmentMain,fragment).addToBackStack(null).commit()
         }
     }

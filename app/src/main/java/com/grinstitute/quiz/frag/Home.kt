@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.grinstitute.quiz.MainActivity
 import com.grinstitute.quiz.MainActivity.Companion.dataBaseManager
 import com.grinstitute.quiz.R
 import com.grinstitute.quiz.database.Constants
@@ -35,7 +36,6 @@ class Home : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var mainCategories = ArrayList<Config_Category>()
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MainCategoryAdapter
     private lateinit var binding: FragmentHomeBinding
 
@@ -78,6 +78,10 @@ class Home : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.app_name)
         binding.homeRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.homeRecycler.adapter = adapter
+        val activity = requireActivity() as MainActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        activity.actionBarToggle.isDrawerIndicatorEnabled = true
+        activity.actionBarToggle.syncState()
     }
 
     companion object {

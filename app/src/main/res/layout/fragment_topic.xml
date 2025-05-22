@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".frag.Topic">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/topic_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/test_layout"/>
+
+    <LinearLayout
+        android:id="@+id/test_layout"
+        app:layout_constraintTop_toBottomOf="@id/topic_recycler"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:background="@color/quiz_primary"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:text="No. Of Questions"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:layout_height="wrap_content"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/q25"
+                    android:text="25"
+                    android:checked="true"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/q50"
+                    android:text="50"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/q75"
+                    android:text="75"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/q100"
+                    android:text="100"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RadioGroup>
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start_test"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:padding="@dimen/_2sdp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="Start Test"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

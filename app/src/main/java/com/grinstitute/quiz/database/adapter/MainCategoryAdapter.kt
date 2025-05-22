@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.grinstitute.quiz.R
 import com.grinstitute.quiz.database.model.Config_Category
+import com.grinstitute.quiz.databinding.CategoryItemBinding
 import com.grinstitute.quiz.frag.SelectionHome
 
 class MainCategoryAdapter(private val fragment: Fragment,private val mainCategories: ArrayList<Config_Category>) : RecyclerView.Adapter<MainCategoryAdapter.ViewHolder>() {
+    private lateinit var binding: CategoryItemBinding
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var itemCard: CardView = itemView.findViewById(R.id.category)
         private var name: TextView = itemView.findViewById(R.id.category_name)
@@ -27,8 +29,8 @@ class MainCategoryAdapter(private val fragment: Fragment,private val mainCategor
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
-        return ViewHolder(view)
+        binding = CategoryItemBinding.inflate(fragment.layoutInflater, parent, false)
+        return ViewHolder(binding.root)
     }
 
     override fun getItemCount(): Int {

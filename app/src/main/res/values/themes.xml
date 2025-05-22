@@ -28,6 +28,8 @@
         <!-- Status bar / Navigation bar -->
         <item name="android:statusBarColor">@color/quiz_primary_dark</item>
         <item name="android:navigationBarColor">@color/white</item>
+
+        <item name="fontFamily">serif-monospace</item>
     </style>
     <style name="CircleImageView" parent="">
         <item name="cornerFamily">rounded</item>
