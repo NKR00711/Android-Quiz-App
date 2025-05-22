@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -56,6 +57,8 @@ dependencies {
     implementation(libs.firebase.database)
     // For SSP, use this:
 //    implementation("com.intuit.ssp:ssp-android:1.1.1")
+    //shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/_2sdp"
         app:cardCornerRadius="@dimen/_5sdp"
+        android:backgroundTint="@android:color/darker_gray"
         app:cardUseCompatPadding="true"
         android:clickable="true"
         android:focusable="true">
@@ -26,36 +28,18 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="center_vertical"
                 android:scaleType="fitCenter" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/category_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:paddingStart="@dimen/_10sdp"
-                android:gravity="start"
+                android:gravity="center_vertical"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_10sdp"
                 android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/question_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:gravity="start"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="@dimen/_8sdp"
-                    android:textColor="@android:color/black"/>
-
-            </LinearLayout>
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/test_select"
@@ -66,4 +50,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

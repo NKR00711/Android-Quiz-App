@@ -1,5 +1,6 @@
 package com.grinstitute.quiz.frag
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.grinstitute.quiz.R
+import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.FragmentPracticeBinding
 import com.grinstitute.quiz.databinding.FragmentTestBinding
 
@@ -18,16 +20,17 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class Practice : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var name: String? = null
-    private var dbName: String? = null
     private lateinit var binding: FragmentPracticeBinding
+    private lateinit var questions: ArrayList<Question>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            name = it.getString(ARG_PARAM1)
-            dbName = it.getString(ARG_PARAM2)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                questions = it.getParcelableArrayList(ARG_PARAM1, Question::class.java)!!
+            } else {
+                questions = it.getParcelableArrayList(ARG_PARAM1)!!
+            }
         }
     }
 
@@ -41,7 +44,7 @@ class Practice : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = name
+//        (requireActivity() as AppCompatActivity).supportActionBar?.title = name
     }
 
     companion object {
@@ -55,11 +58,10 @@ class Practice : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: ArrayList<Question>) =
             Practice().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putParcelableArrayList(ARG_PARAM1, param1)
                 }
             }
     }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.grinstitute.quiz.MainActivity
@@ -14,6 +15,7 @@ import com.grinstitute.quiz.database.Constants.CATEGORY
 import com.grinstitute.quiz.database.Constants.QUESTION
 import com.grinstitute.quiz.database.adapter.TopicAdapter
 import com.grinstitute.quiz.database.model.Category
+import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.FragmentTopicBinding
 
 private const val ARG_PARAM1 = "param1"
@@ -36,36 +38,40 @@ class Topic : Fragment() {
             name = it.getString(ARG_PARAM1)
             dbName = it.getString(ARG_PARAM2)
             type = it.getInt(ARG_PARAM3)
-            fragment = when (type) {
-                1 -> {//Study
-                    Study.newInstance(name!!, dbName!!)
-                }
-
-                2 -> {//Practice
-                    Practice.newInstance(name!!, dbName!!)
-                }
-
-                else -> {//Test
-                    Test.newInstance(name!!, dbName!!)
-                }
-            }
         }
         adapter = TopicAdapter(this, topicList)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTopicBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = activity as MainActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activity.actionBarToggle.isDrawerIndicatorEnabled = true
+        activity.binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+        activity.binding.toolbar.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack() // Go back
+        }
+        activity.supportActionBar?.title = name
+        if(topicList.size < 1)
+            binding.shimmerView.visibility = View.VISIBLE
+        binding.topicRecycler.layoutManager = LinearLayoutManager(requireContext())
+        binding.topicRecycler.adapter = adapter
+        binding.testLayout.visibility = when (type) {
+            3 -> View.VISIBLE
+            else -> View.GONE
+        }
+        val questionMap = mutableMapOf<Long, ArrayList<Question>>()
+        adapter.setQuestionMap(questionMap)
         dataBaseManager.getSnapShot(requireContext(), dbName!!){
             if (it != null) {
-//                for (i in it.child(QUESTION).children) {
-//                    val category = i.getValue(Category::class.java)
-//                    category?.let {
-//                        val position = topicList.indexOfFirst { it.id == category.id }
-//                        if (position != -1) {
-//                            topicList[position] = category
-//                            adapter.notifyItemChanged(position)
-//                        } else {
-//                            topicList.add(category)
-//                            adapter.notifyItemInserted(topicList.size - 1)
-//                        }
-//                    }
-//                }
                 for (i in it.child(CATEGORY).children) {
                     val category = i.getValue(Category::class.java)
                     category?.let {
@@ -79,28 +85,15 @@ class Topic : Fragment() {
                         }
                     }
                 }
+                for (i in it.child(QUESTION).children) {
+                    val question = i.getValue(Question::class.java)
+                    question?.let {
+                        val list = questionMap.getOrPut(question.cid) { ArrayList() }
+                        list.add(question)
+                    }
+                }
+                binding.shimmerView.visibility = View.GONE
             }
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentTopicBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.topicRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.topicRecycler.adapter = adapter
-        val activity = activity as MainActivity
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        activity.actionBarToggle.isDrawerIndicatorEnabled = true
-        activity.binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(requireContext(), R.color.white))
-        activity.binding.toolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack() // Go back
         }
     }
 
