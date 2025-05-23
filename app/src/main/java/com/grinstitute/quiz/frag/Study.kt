@@ -17,7 +17,7 @@ import com.grinstitute.quiz.database.adapter.TabAdapter
 import com.grinstitute.quiz.database.model.Category
 import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.FragmentStudyPracticeBinding
-import com.grinstitute.quiz.util.Utils
+import com.grinstitute.quiz.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -141,15 +141,15 @@ class Study : Fragment() {
                 val myPosition:Int = (binding.questionPager.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                 when (item.itemId) {
                     R.id.action_copy -> {
-                        Utils.copyToClipboard(requireContext(), Utils.parseQnA(requireContext(),questions[myPosition]))
+                        copyToClipboard(requireContext(), parseQnA(requireContext(),questions[myPosition]))
                         true
                     }
                     R.id.action_share -> {
-                        Utils.shareText(requireContext(),Utils.parseQnA(requireContext(),questions[myPosition]))
+                        shareText(requireContext(),parseQnA(requireContext(),questions[myPosition]))
                         true
                     }
                     R.id.action_report -> {
-                        Utils.showIssueReportDialog(requireContext(),myPosition,questions[myPosition],topicList)
+                        showIssueReportDialog(requireContext(),myPosition,questions[myPosition],topicList)
                         true
                     }
                     else -> false

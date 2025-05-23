@@ -10,12 +10,12 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.grinstitute.quiz.R
 import com.grinstitute.quiz.database.model.Question
-import com.grinstitute.quiz.databinding.PracticeItemQuestionBinding
+import com.grinstitute.quiz.databinding.TestItemQuestionBinding
 import com.grinstitute.quiz.util.*
 
-class PracticeQuestionAdapter(
+class TestQuestionAdapter(
     private val questionList: ArrayList<Question>
-) : RecyclerView.Adapter<PracticeQuestionAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TestQuestionAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var question: TextView = itemView.findViewById(R.id.question)
@@ -23,26 +23,26 @@ class PracticeQuestionAdapter(
 //        var option2: CheckedTextView = itemView.findViewById(R.id.option2)
 //        var option3: CheckedTextView = itemView.findViewById(R.id.option3)
 //        var option4: CheckedTextView = itemView.findViewById(R.id.option4)
-        var binding: PracticeItemQuestionBinding = PracticeItemQuestionBinding.bind(itemView)
+        var binding = TestItemQuestionBinding.bind(itemView)
 
         fun bind(question: Question,bindingPosition:Int){
             binding.option1.setOnClickListener {
-                checkAt(this,0,question.answer.toInt(),bindingPosition)
+                checkAt(this,0, bindingPosition)
             }
             binding.option2.setOnClickListener {
-                checkAt(this,1,question.answer.toInt(),bindingPosition)
+                checkAt(this,1, bindingPosition)
             }
             binding.option3.setOnClickListener {
-                checkAt(this,2,question.answer.toInt(),bindingPosition)
+                checkAt(this,2, bindingPosition)
             }
             binding.option4.setOnClickListener {
-                checkAt(this, 3,question.answer.toInt(),bindingPosition)
+                checkAt(this, 3, bindingPosition)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(PracticeItemQuestionBinding.inflate(LayoutInflater.from(parent.context), parent, false).root)
+        return ViewHolder(TestItemQuestionBinding.inflate(LayoutInflater.from(parent.context), parent, false).root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -67,7 +67,7 @@ class PracticeQuestionAdapter(
                     option.setCheckable(true)
                     option.background = AppCompatResources.getDrawable(
                         holder.itemView.rootView.context,
-                        R.drawable.answer_selector
+                        R.drawable.option_selector
                     )
                     option.setCheckMarkDrawable(null)
                 } else option.setCheckable(false)
@@ -75,7 +75,7 @@ class PracticeQuestionAdapter(
 
             question.selectedOption?.let { selected ->
                 if (!options.any(CheckedTextView::isChecked)) {
-                    checkAt(holder, selected, question.answer.toInt(), position)
+                    checkAt(holder, selected, position)
                 }
             }
 
@@ -86,7 +86,7 @@ class PracticeQuestionAdapter(
 
     override fun getItemCount(): Int = questionList.size
 
-    private fun checkAt(holder: ViewHolder, position: Int, correctAnswer: Int, bindingPosition: Int){
+    private fun checkAt(holder: ViewHolder, position: Int, bindingPosition: Int){
         val options = listOf(
             holder.binding.option1,
             holder.binding.option2,
@@ -95,14 +95,14 @@ class PracticeQuestionAdapter(
         )
 
         options.forEach { it.setCheckable(false)  }
-        options[position].setCheckMarkDrawable(R.drawable.ischeck)
+//        options[position].setCheckMarkDrawable(R.drawable.ischeck)
         options[position].isChecked = true
-        options[correctAnswer].setCheckMarkDrawable(R.drawable.ischeck)
-        options[correctAnswer].isChecked = true
-        if(position != correctAnswer){
-            options[position].isChecked = false
-            options[position].background = AppCompatResources.getDrawable(holder.itemView.rootView.context,R.drawable.wrong_option_bg)
-        }
+//        options[correctAnswer].setCheckMarkDrawable(R.drawable.ischeck)
+//        options[correctAnswer].isChecked = true
+//        if(position != correctAnswer){
+//            options[position].isChecked = false
+//            options[position].background = AppCompatResources.getDrawable(holder.itemView.rootView.context,R.drawable.wrong_option_bg)
+//        }
 
 //        if (bindingPosition != RecyclerView.NO_POSITION) {
             questionList[bindingPosition].selectedOption = position

@@ -9,5 +9,6 @@ data class Question(
     val question: String = "",
     val options: ArrayList<String> = arrayListOf(),
     val answer: Long = 0L,
-    val explanation: String = ""
+    val explanation: String = "",
+    var selectedOption: Int? = null
 ) : Parcelable

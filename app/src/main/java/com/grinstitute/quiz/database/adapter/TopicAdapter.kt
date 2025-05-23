@@ -20,11 +20,12 @@ import com.grinstitute.quiz.frag.SelectionHome
 import com.grinstitute.quiz.frag.Study
 import com.grinstitute.quiz.frag.Test
 import com.grinstitute.quiz.frag.Topic
-import com.grinstitute.quiz.util.Utils
+import com.grinstitute.quiz.util.*
 
 class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList<Category>) : RecyclerView.Adapter<TopicAdapter.ViewHolder>() {
     private lateinit var binding: CategoryListBinding
     private var questionMap: MutableMap<Long, ArrayList<Question>> = mutableMapOf()
+    private var selectedTopicList: ArrayList<Category> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = CategoryListBinding.inflate(fragment.layoutInflater, parent, false)
@@ -72,7 +73,7 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
                     this.fragment.parentFragmentManager.beginTransaction()
                         .replace(R.id.fragmentMain, fragment).addToBackStack(null).commit()
                 } else {
-                    Utils.showToast(fragment.requireContext(), "No Questions Available")
+                    showToast(fragment.requireContext(), "No Questions Available")
                 }
             }
         }
@@ -93,7 +94,23 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
                 testSelect.visibility = View.VISIBLE
             }
             binding.questionCount.text = "${questionMap[document.id]?.size.toString()} Questions"
+
+            binding.testSelect.isChecked = selectedTopicList.any { it.id == document.id }
+
+            binding.testSelect.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    selectedTopicList.add(document)
+                } else {
+                    selectedTopicList.find { it.id == document.id }?.let {
+                        selectedTopicList.remove(it)
+                    }
+                }
+            }
         }
+    }
+
+    fun getSelectedTopics(): ArrayList<Category> {
+        return selectedTopicList
     }
 
 }

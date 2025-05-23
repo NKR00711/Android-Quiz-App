@@ -1,6 +1,8 @@
 package com.grinstitute.quiz.frag
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.radiobutton.MaterialRadioButton
 import com.grinstitute.quiz.MainActivity
 import com.grinstitute.quiz.MainActivity.Companion.dataBaseManager
 import com.grinstitute.quiz.R
@@ -17,6 +20,7 @@ import com.grinstitute.quiz.database.adapter.TopicAdapter
 import com.grinstitute.quiz.database.model.Category
 import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.FragmentTopicBinding
+import com.grinstitute.quiz.util.*
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -80,13 +84,16 @@ class Topic : Fragment() {
                         val position = topicList.indexOfFirst { it.id == category.id }
                         if (position != -1) {
                             topicList[position] = category
-                            adapter.notifyItemChanged(position)
+//                            adapter.notifyItemChanged(position)
                         } else {
                             topicList.add(category)
-                            adapter.notifyItemInserted(topicList.size - 1)
+//                            adapter.notifyItemInserted(topicList.size - 1)
                         }
                     }
                 }
+                topicList.sortBy { it.name }
+                @SuppressLint("NotifyDataSetChanged")
+                adapter.notifyDataSetChanged()
                 for (i in it.child(QUESTION).children) {
                     val question = i.getValue(Question::class.java)
                     question?.let {
@@ -97,6 +104,20 @@ class Topic : Fragment() {
                 binding.shimmerView.visibility = View.GONE
                 binding.topicRecycler.visibility = View.VISIBLE
             }
+        }
+
+        binding.startTest.setOnClickListener {
+            val selectedTopics = adapter.getSelectedTopics()
+            if (selectedTopics.isNotEmpty()) {
+                val numberOfQuestions = binding.root.findViewById<MaterialRadioButton>(binding.numberOfQuestions.checkedRadioButtonId)!!.text.toString().toInt()
+                val questions = generateQuestions(questionMap, selectedTopics, numberOfQuestions)
+                if (questions.isNotEmpty()) {
+                    val topicsString: String = selectedTopics.joinToString(", ") { it.name }
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentMain, Test.newInstance(topicsString, questions, selectedTopics))
+                        .addToBackStack(null).commit()
+                }
+            } else showToast(requireContext(), "Please select at least one topic")
         }
     }
 

@@ -1,14 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frag.Test">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".frag.Study">
 
-    <TextView
-        android:gravity="center"
+    <!-- Tab-like RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tabRecycler"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/madeInIndia" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:layout_marginBottom="8dp"/>
 
-</FrameLayout>
+    <View
+        android:id="@+id/header_border"
+        app:layout_constraintTop_toBottomOf="@id/tabRecycler"
+        android:layout_width="match_parent"
+        android:background="@color/quiz_primary"
+        android:layout_height="@dimen/_2sdp"/>
+
+    <!-- Question Pager RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/questionPager"
+        app:layout_constraintTop_toBottomOf="@id/header_border"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_button"
+        android:layout_weight="1"
+        android:overScrollMode="never"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_button"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:elevation="@dimen/_5sdp"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/next"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:icon="@drawable/left"
+            app:iconSize="@dimen/_30sdp"
+            app:iconGravity="top"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            app:cornerRadius="@dimen/_10sdp"
+            android:backgroundTint="@color/quiz_secondary"
+            android:text="Previous"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:contentDescription="@string/app_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:icon="@drawable/right"
+            app:iconSize="@dimen/_30sdp"
+            app:iconGravity="top"
+            app:cornerRadius="@dimen/_10sdp"
+            android:backgroundTint="@color/quiz_secondary"
+            android:text="Next"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/previous"
+            app:layout_constraintEnd_toStartOf="@id/finish"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/app_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/finish"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:icon="@drawable/check"
+            app:iconSize="@dimen/_30sdp"
+            app:iconGravity="top"
+            app:cornerRadius="@dimen/_10sdp"
+            android:backgroundTint="@color/quiz_secondary"
+            android:text="Finish"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/app_name" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/more_button"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:contentDescription="More Options"
+            android:src="@drawable/options_toggle"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/finish"
+            app:backgroundTint="@color/quiz_secondary"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

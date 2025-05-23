@@ -16,11 +16,12 @@ import com.grinstitute.quiz.databinding.CategoryItemBinding
 import com.grinstitute.quiz.frag.SelectionHome
 
 class MainCategoryAdapter(private val fragment: Fragment,private val mainCategories: ArrayList<Config_Category>) : RecyclerView.Adapter<MainCategoryAdapter.ViewHolder>() {
-    private lateinit var binding: CategoryItemBinding
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var itemCard: CardView = itemView.findViewById(R.id.category)
-        private var name: TextView = itemView.findViewById(R.id.category_name)
-        private var image: ImageView = itemView.findViewById(R.id.category_image)
+        val binding = CategoryItemBinding.bind(itemView)
+        var itemCard = binding.category
+        private var name = binding.categoryName
+        private var image = binding.categoryImage
 
         fun bind(document: Config_Category){
             name.text = document.name
@@ -29,8 +30,7 @@ class MainCategoryAdapter(private val fragment: Fragment,private val mainCategor
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = CategoryItemBinding.inflate(fragment.layoutInflater, parent, false)
-        return ViewHolder(binding.root)
+        return ViewHolder(CategoryItemBinding.inflate(fragment.layoutInflater, parent, false).root)
     }
 
     override fun getItemCount(): Int {
