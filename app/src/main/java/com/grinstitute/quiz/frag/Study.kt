@@ -6,25 +6,31 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.grinstitute.quiz.MainActivity
+import com.grinstitute.quiz.R
 import com.grinstitute.quiz.database.adapter.StudyQuestionAdapter
 import com.grinstitute.quiz.database.adapter.TabAdapter
+import com.grinstitute.quiz.database.model.Category
 import com.grinstitute.quiz.database.model.Question
-import com.grinstitute.quiz.databinding.FragmentStudyBinding
+import com.grinstitute.quiz.databinding.FragmentStudyPracticeBinding
+import com.grinstitute.quiz.util.Utils
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM3 = "param3"
 
 class Study : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var name: String
+    private lateinit var topicList: ArrayList<Category>
     private lateinit var questions: ArrayList<Question>
-    private lateinit var binding: FragmentStudyBinding
+    private lateinit var binding: FragmentStudyPracticeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,14 @@ class Study : Fragment() {
             questions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 it.getParcelableArrayList(ARG_PARAM2, Question::class.java)!!
             } else {
+                @Suppress("DEPRECATION")
                 it.getParcelableArrayList(ARG_PARAM2)!!
+            }
+            topicList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelableArrayList(ARG_PARAM3, Category::class.java)!!
+            } else {
+                @Suppress("DEPRECATION")
+                it.getParcelableArrayList(ARG_PARAM3)!!
             }
         }
     }
@@ -42,7 +55,7 @@ class Study : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentStudyBinding.inflate(layoutInflater)
+        binding = FragmentStudyPracticeBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -74,15 +87,88 @@ class Study : Fragment() {
                 }
             }
         })
+        val layoutManager = binding.questionPager.layoutManager as LinearLayoutManager
+
+        binding.previous.setOnClickListener {
+            val currentPosition = layoutManager.findFirstVisibleItemPosition()
+
+            if (currentPosition > 0) {
+                binding.questionPager.smoothScrollToPosition(currentPosition - 1)
+            }
+        }
+
+        binding.next.setOnClickListener {
+            val currentPosition = layoutManager.findFirstVisibleItemPosition()
+            val totalItems = binding.questionPager.adapter?.itemCount ?: 0
+            if (currentPosition < totalItems) {
+                binding.questionPager.smoothScrollToPosition(currentPosition + 1)
+            }
+        }
+
+        var isMenuOpen = false
+
+        binding.moreButton.setOnClickListener {
+            val popup = PopupMenu(requireContext(), it)
+            popup.menuInflater.inflate(R.menu.more_options_menu, popup.menu)
+
+            try {
+                val fields = popup.javaClass.declaredFields
+                for (field in fields) {
+                    if ("mPopup" == field.name) {
+                        field.isAccessible = true
+                        val menuPopupHelper = field.get(popup)
+                        val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
+                        val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.javaPrimitiveType)
+                        setForceIcons.invoke(menuPopupHelper, true)
+                        break
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            // Update icon to selected (arrow up)
+            binding.moreButton.isSelected = true
+            isMenuOpen = true
+
+            popup.setOnDismissListener {
+                // Revert icon back when menu closes
+                binding.moreButton.isSelected = false
+                isMenuOpen = false
+            }
+
+            popup.setOnMenuItemClickListener { item ->
+                val myPosition:Int = (binding.questionPager.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                when (item.itemId) {
+                    R.id.action_copy -> {
+                        Utils.copyToClipboard(requireContext(), Utils.parseQnA(requireContext(),questions[myPosition]))
+                        true
+                    }
+                    R.id.action_share -> {
+                        Utils.shareText(requireContext(),Utils.parseQnA(requireContext(),questions[myPosition]))
+                        true
+                    }
+                    R.id.action_report -> {
+                        Utils.showIssueReportDialog(requireContext(),myPosition,questions[myPosition],topicList)
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popup.show()
+        }
+
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: ArrayList<Question>) =
+        fun newInstance(param1: String, param2: ArrayList<Question>, param3: ArrayList<Category>) =
             Study().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1,param1)
                     putParcelableArrayList(ARG_PARAM2, param2)
+                    putParcelableArrayList(ARG_PARAM3, param3)
                 }
             }
     }

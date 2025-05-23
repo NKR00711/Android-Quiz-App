@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import com.grinstitute.quiz.MainActivity
 import com.grinstitute.quiz.R
 import com.grinstitute.quiz.databinding.FragmentSelectionHomeBinding
@@ -42,6 +43,10 @@ class SelectionHome : Fragment() {
         activity.actionBarToggle.isDrawerIndicatorEnabled = true
         activity.actionBarToggle.syncState()
         activity.supportActionBar?.title = name
+        activity.binding.toolbar.setNavigationOnClickListener {
+            activity.binding.main.openDrawer(GravityCompat.START)
+        }
+        MainActivity.selectCategory = name.toString()
         binding.study.setOnClickListener { view ->
             val fragment = Topic.newInstance(name!!,dbName!!,1)
             parentFragmentManager.beginTransaction().replace(R.id.fragmentMain,fragment).addToBackStack(null).commit()

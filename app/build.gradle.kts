@@ -49,12 +49,15 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     //Image
     implementation("io.coil-kt.coil3:coil:3.2.0")
-    implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
+//    implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
     //sdp & ssp
     implementation(libs.sdp.android)
     //Firebase
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database)
+    //Network
+    implementation("io.ktor:ktor-client-core:3.1.3")
+    implementation("io.ktor:ktor-client-cio:3.1.3")
     // For SSP, use this:
 //    implementation("com.intuit.ssp:ssp-android:1.1.1")
     //shimmer

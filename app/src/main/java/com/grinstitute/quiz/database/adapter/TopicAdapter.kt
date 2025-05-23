@@ -20,6 +20,7 @@ import com.grinstitute.quiz.frag.SelectionHome
 import com.grinstitute.quiz.frag.Study
 import com.grinstitute.quiz.frag.Test
 import com.grinstitute.quiz.frag.Topic
+import com.grinstitute.quiz.util.Utils
 
 class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList<Category>) : RecyclerView.Adapter<TopicAdapter.ViewHolder>() {
     private lateinit var binding: CategoryListBinding
@@ -38,24 +39,41 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
         if(topicList.isNotEmpty()){
             holder.bind(topicList[position])
             binding.category.setOnClickListener {
-                if(fragment.type == 3){
-                    holder.testSelect.toggle()
-                    return@setOnClickListener
-                }
-                val fragment = when (fragment.type) {
-                    1 -> {//Study
-                        Study.newInstance(topicList[position].name,questionMap[topicList[position].id]!!)
+                if(questionMap[topicList[position].id]?.isNotEmpty() == true) {
+                    if (fragment.type == 3) {
+                        holder.testSelect.toggle()
+                        return@setOnClickListener
                     }
+                    val fragment = when (fragment.type) {
+                        1 -> {//Study
+                            Study.newInstance(
+                                topicList[position].name,
+                                questionMap[topicList[position].id]!!,
+                                topicList
+                            )
+                        }
 
-                    2 -> {//Practice
-                        Practice.newInstance(topicList[position].name,questionMap[topicList[position].id]!!)
-                    }
+                        2 -> {//Practice
+                            Practice.newInstance(
+                                topicList[position].name,
+                                questionMap[topicList[position].id]!!,
+                                topicList
+                            )
+                        }
 
-                    else -> {//Test
-                        Test.newInstance(topicList[position].name,questionMap[topicList[position].id]!!)
+                        else -> {//Test
+                            Test.newInstance(
+                                topicList[position].name,
+                                questionMap[topicList[position].id]!!,
+                                topicList
+                            )
+                        }
                     }
+                    this.fragment.parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentMain, fragment).addToBackStack(null).commit()
+                } else {
+                    Utils.showToast(fragment.requireContext(), "No Questions Available")
                 }
-                this.fragment.parentFragmentManager.beginTransaction().replace(R.id.fragmentMain,fragment).addToBackStack(null).commit()
             }
         }
     }

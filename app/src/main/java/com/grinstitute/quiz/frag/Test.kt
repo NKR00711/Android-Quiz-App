@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.grinstitute.quiz.MainActivity
 import com.grinstitute.quiz.R
+import com.grinstitute.quiz.database.model.Category
 import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.FragmentTestBinding
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM3 = "param3"
 /**
  * A simple [Fragment] subclass.
  * Use the [Test.newInstance] factory method to
@@ -23,6 +25,7 @@ class Test : Fragment() {
     private lateinit var name: String
     private lateinit var binding: FragmentTestBinding
     private lateinit var questions: ArrayList<Question>
+    private lateinit var topicList: ArrayList<Category>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,14 @@ class Test : Fragment() {
             questions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 it.getParcelableArrayList(ARG_PARAM2, Question::class.java)!!
             } else {
+                @Suppress("DEPRECATION")
                 it.getParcelableArrayList(ARG_PARAM2)!!
+            }
+            topicList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelableArrayList(ARG_PARAM3, Category::class.java)!!
+            } else {
+                @Suppress("DEPRECATION")
+                it.getParcelableArrayList(ARG_PARAM3)!!
             }
         }
     }
@@ -54,11 +64,12 @@ class Test : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: ArrayList<Question>) =
+        fun newInstance(param1: String, param2: ArrayList<Question>, param3: ArrayList<Category>) =
             Test().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1,param1)
                     putParcelableArrayList(ARG_PARAM2, param2)
+                    putParcelableArrayList(ARG_PARAM3, param3)
                 }
             }
     }

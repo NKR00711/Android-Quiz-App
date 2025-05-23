@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var actionBarToggle: ActionBarDrawerToggle
     companion object {
         var dataBaseManager = DataBaseManager()
+        lateinit var selectCategory: String
     }
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {

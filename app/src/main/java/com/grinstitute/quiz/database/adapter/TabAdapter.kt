@@ -21,6 +21,7 @@ class TabAdapter(
             binding.tabTitle.text = (position+1).toString()
 
             // Highlight selected tab
+            binding.tabCard.minimumWidth = 100
             binding.tabCard.strokeWidth = if (position == selectedPosition) 4 else 0
             binding.tabCard.strokeColor = if (position == selectedPosition)
                 ContextCompat.getColor(binding.root.context, R.color.quiz_primary)
