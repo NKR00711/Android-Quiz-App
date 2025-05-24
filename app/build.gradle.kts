@@ -43,33 +43,31 @@ android {
 }
 
 dependencies {
-    val nav_version = "2.9.0"
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     //Image
-    implementation("io.coil-kt.coil3:coil:3.2.0")
-//    implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
+    implementation(libs.coil)
+//    implementation(libs.coil.network.okhttp)
     //sdp & ssp
     implementation(libs.sdp.android)
     //Firebase
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database)
     //Network
-    implementation("io.ktor:ktor-client-core:3.1.3")
-    implementation("io.ktor:ktor-client-cio:3.1.3")
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
     //chart
     implementation("ir.mahozad.android:pie-chart:0.7.0")
     // Views/Fragments integration
-    implementation("androidx.navigation:navigation-fragment:$nav_version")
-    implementation("androidx.navigation:navigation-ui:$nav_version")
+//    implementation("androidx.navigation:navigation-fragment:$nav_version")
+//    implementation("androidx.navigation:navigation-ui:$nav_version")
     // For SSP, use this:
 //    implementation("com.intuit.ssp:ssp-android:1.1.1")
     //shimmer
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation(libs.shimmer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
