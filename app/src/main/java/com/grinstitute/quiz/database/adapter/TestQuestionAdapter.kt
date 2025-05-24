@@ -64,13 +64,13 @@ class TestQuestionAdapter(
                 }
                 if (question.selectedOption == null) {
                     option.isChecked = false
-                    option.setCheckable(true)
+//                    option.setCheckable(true)
                     option.background = AppCompatResources.getDrawable(
                         holder.itemView.rootView.context,
                         R.drawable.option_selector
                     )
                     option.setCheckMarkDrawable(null)
-                } else option.setCheckable(false)
+                }// else option.setCheckable(false)
             }
 
             question.selectedOption?.let { selected ->
@@ -94,7 +94,14 @@ class TestQuestionAdapter(
             holder.binding.option4
         )
 
-        options.forEach { it.setCheckable(false)  }
+        options.forEach { option ->
+            option.isChecked = false
+            option.background = AppCompatResources.getDrawable(
+                holder.itemView.rootView.context,
+                R.drawable.option_selector
+            )
+            option.setCheckMarkDrawable(null)
+        }
 //        options[position].setCheckMarkDrawable(R.drawable.ischeck)
         options[position].isChecked = true
 //        options[correctAnswer].setCheckMarkDrawable(R.drawable.ischeck)

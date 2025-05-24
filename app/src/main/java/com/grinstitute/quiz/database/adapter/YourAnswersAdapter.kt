@@ -13,31 +13,16 @@ import com.grinstitute.quiz.database.model.Question
 import com.grinstitute.quiz.databinding.PracticeItemQuestionBinding
 import com.grinstitute.quiz.util.*
 
-class PracticeQuestionAdapter(
+class YourAnswersAdapter(
     private val questionList: ArrayList<Question>
-) : RecyclerView.Adapter<PracticeQuestionAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<YourAnswersAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var question: TextView = itemView.findViewById(R.id.question)
-//        var option1: CheckedTextView = itemView.findViewById(R.id.option1)
-//        var option2: CheckedTextView = itemView.findViewById(R.id.option2)
-//        var option3: CheckedTextView = itemView.findViewById(R.id.option3)
-//        var option4: CheckedTextView = itemView.findViewById(R.id.option4)
         var binding: PracticeItemQuestionBinding = PracticeItemQuestionBinding.bind(itemView)
 
         fun bind(question: Question,bindingPosition:Int){
-            binding.option1.setOnClickListener {
-                checkAt(this,0,question.answer.toInt(),bindingPosition)
-            }
-            binding.option2.setOnClickListener {
-                checkAt(this,1,question.answer.toInt(),bindingPosition)
-            }
-            binding.option3.setOnClickListener {
-                checkAt(this,2,question.answer.toInt(),bindingPosition)
-            }
-            binding.option4.setOnClickListener {
-                checkAt(this, 3,question.answer.toInt(),bindingPosition)
-            }
+
         }
     }
 
@@ -58,27 +43,28 @@ class PracticeQuestionAdapter(
             )
 
             options.forEachIndexed { i, option ->
+                option.isEnabled = true
+                option.setCheckable(false)
                 option.visibility = if (i < question.options.size) View.VISIBLE else View.GONE
+                option.isChecked = false
+                option.background = AppCompatResources.getDrawable(
+                    holder.binding.root.context,
+                    R.drawable.answer_selector
+                )
+                option.setCheckMarkDrawable(null)
                 if (i < question.options.size) {
                     option.text = "${'A' + i}. ${question.options[i]}"
                 }
                 if (question.selectedOption == null) {
-                    option.isChecked = false
-                    option.setCheckable(true)
-                    option.background = AppCompatResources.getDrawable(
-                        holder.itemView.rootView.context,
-                        R.drawable.answer_selector
-                    )
-                    option.setCheckMarkDrawable(null)
-                } else option.setCheckable(false)
-            }
-
-            question.selectedOption?.let { selected ->
-                if (!options.any(CheckedTextView::isChecked)) {
-                    checkAt(holder, selected, question.answer.toInt(), position)
+                    option.isEnabled = false
+                } else {
+                    checkAt(holder, question.selectedOption!!, question.answer.toInt(), position)
                 }
             }
 
+            options[question.answer.toInt()].setCheckMarkDrawable(R.drawable.ischeck)
+            options[question.answer.toInt()].isChecked = true
+            options[question.answer.toInt()].background = AppCompatResources.getDrawable(holder.itemView.rootView.context,R.drawable.option_bg)
 
             holder.bind(question, position)
         }

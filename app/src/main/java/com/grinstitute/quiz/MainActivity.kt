@@ -9,11 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.internal.ToolbarUtils
 import com.google.firebase.FirebaseApp
 import com.grinstitute.quiz.database.DataBaseManager
 import com.grinstitute.quiz.databinding.ActivityMainBinding
 import com.grinstitute.quiz.frag.Home
+import com.grinstitute.quiz.frag.Test
+import com.grinstitute.quiz.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var actionBarToggle: ActionBarDrawerToggle
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this) {
             val fragmentManager = supportFragmentManager
             if (fragmentManager.backStackEntryCount > 0) {
-                fragmentManager.popBackStack()
+                fragmentManager.popUp(this@MainActivity)
             } else {
                 finishAffinity()
             }

@@ -79,7 +79,7 @@
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/previous"
-            app:layout_constraintEnd_toStartOf="@id/more_button"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:contentDescription="@string/app_name" />
 
@@ -94,7 +94,7 @@
             android:src="@drawable/options_toggle"
             android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/next"
             app:backgroundTint="@color/quiz_secondary"
             />
 

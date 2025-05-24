@@ -7,50 +7,48 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.grinstitute.quiz.MainActivity
 import com.grinstitute.quiz.R
+import com.grinstitute.quiz.database.adapter.YourAnswersAdapter
 import com.grinstitute.quiz.database.adapter.TabAdapter
-import com.grinstitute.quiz.database.adapter.TestQuestionAdapter
 import com.grinstitute.quiz.database.model.Category
 import com.grinstitute.quiz.database.model.Question
-import com.grinstitute.quiz.databinding.FragmentTestBinding
-import com.grinstitute.quiz.util.*
+import com.grinstitute.quiz.databinding.FragmentStudyPracticeBinding
+import com.grinstitute.quiz.util.copyToClipboard
+import com.grinstitute.quiz.util.parseQnA
+import com.grinstitute.quiz.util.shareText
+import com.grinstitute.quiz.util.showIssueReportDialog
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val ARG_PARAM3 = "param3"
 /**
  * A simple [Fragment] subclass.
- * Use the [Test.newInstance] factory method to
+ * Use the [YourAnswer.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Test : Fragment() {
-
-    private var isMenuOpen = false
-    private lateinit var name: String
-    private lateinit var binding: FragmentTestBinding
+class YourAnswer : Fragment() {
+    private lateinit var binding: FragmentStudyPracticeBinding
     private lateinit var questions: ArrayList<Question>
     private lateinit var topicList: ArrayList<Category>
+    private var isMenuOpen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            name = it.getString(ARG_PARAM1)!!
             questions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                it.getParcelableArrayList(ARG_PARAM2, Question::class.java)!!
+                it.getParcelableArrayList(ARG_PARAM1, Question::class.java)!!
+            } else {
+                @Suppress("DEPRECATION")
+                it.getParcelableArrayList(ARG_PARAM1)!!
+            }
+            topicList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelableArrayList(ARG_PARAM2, Category::class.java)!!
             } else {
                 @Suppress("DEPRECATION")
                 it.getParcelableArrayList(ARG_PARAM2)!!
-            }
-            topicList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                it.getParcelableArrayList(ARG_PARAM3, Category::class.java)!!
-            } else {
-                @Suppress("DEPRECATION")
-                it.getParcelableArrayList(ARG_PARAM3)!!
             }
         }
     }
@@ -59,7 +57,7 @@ class Test : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTestBinding.inflate(layoutInflater)
+        binding = FragmentStudyPracticeBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -67,16 +65,18 @@ class Test : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 //        (requireActivity() as AppCompatActivity).supportActionBar?.title = name
         val activity = requireActivity() as MainActivity
-        activity.binding.toolbarTitle.text = name
+        activity.binding.toolbarTitle.text = "Your Answers"
         activity.binding.toolbarTitle.isSelected = true
-        binding.tabRecycler.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.tabRecycler.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         val tabAdapter = TabAdapter(questions) { position ->
             binding.questionPager.scrollToPosition(position)
         }
         binding.tabRecycler.adapter = tabAdapter
 
-        binding.questionPager.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        binding.questionPager.adapter = TestQuestionAdapter(questions)
+        binding.questionPager.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.questionPager.adapter = YourAnswersAdapter(questions)
         binding.questionPager.setHasFixedSize(true)
 
         PagerSnapHelper().attachToRecyclerView(binding.questionPager)
@@ -109,13 +109,6 @@ class Test : Fragment() {
             }
         }
 
-        binding.finish.setOnClickListener {
-            parentFragmentManager.popBackStack()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentMain, Result.newInstance(topicList,questions))
-                .addToBackStack(null)
-                .commit()
-        }
 
         binding.moreButton.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
@@ -151,15 +144,26 @@ class Test : Fragment() {
                 val myPosition:Int = (binding.questionPager.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                 when (item.itemId) {
                     R.id.action_copy -> {
-                        copyToClipboard(requireContext(), parseQnA(requireContext(),questions[myPosition]))
+                        copyToClipboard(
+                            requireContext(),
+                            parseQnA(requireContext(), questions[myPosition])
+                        )
                         true
                     }
                     R.id.action_share -> {
-                        shareText(requireContext(),parseQnA(requireContext(),questions[myPosition]))
+                        shareText(
+                            requireContext(),
+                            parseQnA(requireContext(), questions[myPosition])
+                        )
                         true
                     }
                     R.id.action_report -> {
-                        showIssueReportDialog(requireContext(),myPosition,questions[myPosition],topicList)
+                        showIssueReportDialog(
+                            requireContext(),
+                            myPosition,
+                            questions[myPosition],
+                            topicList
+                        )
                         true
                     }
                     else -> false
@@ -171,13 +175,21 @@ class Test : Fragment() {
     }
 
     companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment Practice.
+         */
+        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: ArrayList<Question>, param3: ArrayList<Category>) =
-            Test().apply {
+        fun newInstance(param1: ArrayList<Question>, param2: ArrayList<Category>) =
+            YourAnswer().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1,param1)
+                    putParcelableArrayList(ARG_PARAM1, param1)
                     putParcelableArrayList(ARG_PARAM2, param2)
-                    putParcelableArrayList(ARG_PARAM3, param3)
                 }
             }
     }

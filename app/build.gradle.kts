@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "2.0.21"
+//    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -41,6 +43,7 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.9.0"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -58,6 +61,11 @@ dependencies {
     //Network
     implementation("io.ktor:ktor-client-core:3.1.3")
     implementation("io.ktor:ktor-client-cio:3.1.3")
+    //chart
+    implementation("ir.mahozad.android:pie-chart:0.7.0")
+    // Views/Fragments integration
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
     // For SSP, use this:
 //    implementation("com.intuit.ssp:ssp-android:1.1.1")
     //shimmer

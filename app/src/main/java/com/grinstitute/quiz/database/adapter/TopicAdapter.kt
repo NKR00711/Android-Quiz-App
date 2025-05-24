@@ -71,7 +71,9 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
                         }
                     }
                     this.fragment.parentFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentMain, fragment).addToBackStack(null).commit()
+                        .replace(R.id.fragmentMain, fragment)
+                        .addToBackStack(null)
+                        .commit()
                 } else {
                     showToast(fragment.requireContext(), "No Questions Available")
                 }

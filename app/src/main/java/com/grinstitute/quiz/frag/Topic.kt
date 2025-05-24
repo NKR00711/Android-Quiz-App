@@ -57,12 +57,7 @@ class Topic : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        activity.actionBarToggle.isDrawerIndicatorEnabled = true
-        activity.binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(requireContext(), R.color.white))
-        activity.binding.toolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack() // Go back
-        }
+        activity.setGoBackButton()
 //        activity.supportActionBar?.title = name
         activity.binding.toolbarTitle.text = name
         activity.binding.toolbarTitle.isSelected = true
