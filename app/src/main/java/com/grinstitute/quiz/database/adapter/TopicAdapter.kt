@@ -23,13 +23,11 @@ import com.grinstitute.quiz.frag.Topic
 import com.grinstitute.quiz.util.*
 
 class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList<Category>) : RecyclerView.Adapter<TopicAdapter.ViewHolder>() {
-    private lateinit var binding: CategoryListBinding
     private var questionMap: MutableMap<Long, ArrayList<Question>> = mutableMapOf()
     private var selectedTopicList: ArrayList<Category> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = CategoryListBinding.inflate(fragment.layoutInflater, parent, false)
-        return ViewHolder(binding.root)
+        return ViewHolder(CategoryListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -39,10 +37,10 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(topicList.isNotEmpty()){
             holder.bind(topicList[position])
-            binding.category.setOnClickListener {
+            holder.binding.category.setOnClickListener {
                 if(questionMap[topicList[position].id]?.isNotEmpty() == true) {
                     if (fragment.type == 3) {
-                        holder.testSelect.toggle()
+                        holder.binding.testSelect.toggle()
                         return@setOnClickListener
                     }
                     val fragment = when (fragment.type) {
@@ -85,15 +83,14 @@ class TopicAdapter(private val fragment: Topic, private val topicList: ArrayList
         this.questionMap = questionMap
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var testSelect: CheckBox = binding.testSelect
+    inner class ViewHolder(var binding: CategoryListBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(document: Category){
             binding.categoryName.text = document.name
             binding.categoryName.isSelected = true
             binding.categoryImage.load(document.image)
             if(fragment.type == 3){
-                testSelect.visibility = View.VISIBLE
+                binding.testSelect.visibility = View.VISIBLE
             }
             binding.questionCount.text = "${questionMap[document.id]?.size.toString()} Questions"
 

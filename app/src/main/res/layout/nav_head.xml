@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="@dimen/_120sdp"
+<RelativeLayout android:layout_height="@dimen/_180sdp"
     android:orientation="vertical"
     android:background="?colorPrimary"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <View
         android:layout_width="match_parent"
-        android:background="@drawable/wave_background"
-        android:translationY="@dimen/_20sdp"
-        android:layout_height="match_parent"/>
+        android:background="@drawable/gr_banner"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical"
         android:padding="@dimen/_10sdp"
+        android:layoutDirection="ltr"
         android:layout_width="match_parent">
         <ImageView
             android:layout_marginTop="@dimen/_10sdp"
@@ -20,7 +22,7 @@
             android:layout_height="@dimen/_50sdp"
             android:contentDescription="@string/app_description"
             android:padding="10dp"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/gr_banner" />
 
         <TextView
             android:layout_width="wrap_content"

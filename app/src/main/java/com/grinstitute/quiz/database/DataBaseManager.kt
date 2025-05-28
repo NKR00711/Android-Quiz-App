@@ -16,7 +16,9 @@ class DataBaseManager() {
     }
 
     fun getSnapShot(context: Context, dbName: String,callback: (DataSnapshot?) -> Unit) {
-        database.getReference(dbName).addListenerForSingleValueEvent(object : ValueEventListener {
+        val dbReference = database.getReference(dbName)
+        dbReference.keepSynced(true)
+        dbReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 callback(snapshot)
             }

@@ -27,6 +27,15 @@
             android:src="@drawable/study"
             android:contentDescription="@string/app_name" />
 
+        <TextView
+            android:text="@string/study"
+            android:textStyle="bold"
+            android:padding="@dimen/_5sdp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.ActionBar.Title"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -51,6 +60,15 @@
             android:src="@drawable/practice"
             android:contentDescription="@string/app_name" />
 
+        <TextView
+            android:text="@string/practice"
+            android:textStyle="bold"
+            android:padding="@dimen/_5sdp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.ActionBar.Title"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -76,6 +94,15 @@
             android:src="@drawable/test"
             android:contentDescription="@string/app_name" />
 
+        <TextView
+            android:text="@string/test"
+            android:textStyle="bold"
+            android:padding="@dimen/_5sdp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.ActionBar.Title"/>
 
     </androidx.cardview.widget.CardView>
 
