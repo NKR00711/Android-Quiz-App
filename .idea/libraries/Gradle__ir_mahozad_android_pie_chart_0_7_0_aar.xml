@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: ir.mahozad.android:pie-chart:0.7.0@aar" external-system-id="GRADLE">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/8.14/transforms/77aeb3c5667e07f8cca8e1abc95328e4/transformed/pie-chart-0.7.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/8.14/transforms/77aeb3c5667e07f8cca8e1abc95328e4/transformed/pie-chart-0.7.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/8.14/transforms/77aeb3c5667e07f8cca8e1abc95328e4/transformed/pie-chart-0.7.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/8.14/transforms/6aa763b6c3e5608f376a05b45ac86c0a/transformed/pie-chart-0.7.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/8.14/transforms/6aa763b6c3e5608f376a05b45ac86c0a/transformed/pie-chart-0.7.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/8.14/transforms/6aa763b6c3e5608f376a05b45ac86c0a/transformed/pie-chart-0.7.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ir.mahozad.android/pie-chart/0.7.0/c21dcefe8668bfb9b40947a1519dc409108b9c7e/pie-chart-0.7.0-javadoc.jar!/" />

@@ -9,6 +9,16 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("nkr") {
+            storeFile = file("/Users/nkr/Documents/nkr007.jks")
+            storePassword = "123456"
+            keyAlias = "key0"
+            keyPassword = "123456"
+            enableV3Signing = true
+            enableV4Signing = true
+        }
+    }
     namespace = "com.grinstitute.quiz"
     compileSdk = 35
 
@@ -16,8 +26,8 @@ android {
         applicationId = "com.grinstitute.quiz"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -25,13 +35,14 @@ android {
     buildTypes {
         debug {
 //            applicationIdSuffix = ".debug"
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isDebuggable = true
+//            isMinifyEnabled = true
+//            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            signingConfig = signingConfigs.getByName("nkr")
+            signingConfig = signingConfigs.getByName("nkr")
         }
         release {
             isMinifyEnabled = true
@@ -40,7 +51,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            signingConfig = signingConfigs.getByName("nkr")
+            signingConfig = signingConfigs.getByName("nkr")
         }
 //        release {
 //            isMinifyEnabled = false

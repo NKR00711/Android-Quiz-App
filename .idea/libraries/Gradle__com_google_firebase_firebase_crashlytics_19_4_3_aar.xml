@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.firebase:firebase-crashlytics:19.4.3@aar" external-system-id="GRADLE">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/8.14/transforms/caccdff82eb42647b7eca24ac4a7f6ee/transformed/firebase-crashlytics-19.4.3/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/8.14/transforms/caccdff82eb42647b7eca24ac4a7f6ee/transformed/firebase-crashlytics-19.4.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/8.14/transforms/caccdff82eb42647b7eca24ac4a7f6ee/transformed/firebase-crashlytics-19.4.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/8.14/transforms/caccdff82eb42647b7eca24ac4a7f6ee/transformed/firebase-crashlytics-19.4.3/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-crashlytics/19.4.3/d0f41c0130621b85c8eb59b8dc117358541662e2/firebase-crashlytics-19.4.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

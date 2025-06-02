@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 -keep class javax.management.** { *; }
 -keep class java.lang.management.** { *; }
+-keep class com.grinstitute.quiz.database.model.** { *; }
 
 -allowaccessmodification
 -optimizations !code/simplification/arithmetic
