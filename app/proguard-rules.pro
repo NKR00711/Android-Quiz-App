@@ -19,3 +19,43 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class javax.management.** { *; }
+-keep class java.lang.management.** { *; }
+
+-allowaccessmodification
+-optimizations !code/simplification/arithmetic
+-keepattributes InnerClasses
+-keepattributes EnclosingMethod
+#-keep class com.google.firebase.auth.zza { *(...); }
+-optimizations
+-forceprocessing
+-optimizationpasses 5
+-overloadaggressively
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+
+#-keepattributes SourceFile,LineNumberTable
+#-renamesourcefileattribute SourceFile
+# If you want to enable optimization, you should include the
+# following:
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+# Removing logging code
+-assumenosideeffects class android.util.Log {
+public static *** d(...);
+public static *** v(...);
+public static *** i(...);
+public static *** w(...);
+public static *** e(...);
+}
+
+-dontwarn java.lang.management.ManagementFactory
+-dontwarn javax.management.MBeanServer
+-dontwarn javax.management.ObjectInstance
+-dontwarn javax.management.ObjectName
+-dontwarn javax.management.StandardMBean
+
+-packageobfuscationdictionary /Users/nkr/Documents/RandomDictMaker0o.txt
+-obfuscationdictionary /Users/nkr/Documents/RandomDictMaker0o.txt
+-classobfuscationdictionary /Users/nkr/Documents/RandomDictMaker0o.txt

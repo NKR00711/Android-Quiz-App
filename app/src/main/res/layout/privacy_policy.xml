@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingTop="15dp"
+        android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:paddingBottom="15dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/btn_close"
+            android:scaleType="fitCenter"
+            android:src="@drawable/app_logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImageView"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:text="@string/privacy_close_dialog_text"/>
+        <ScrollView
+            android:id="@+id/scrollViewAboutUs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="WebViewLayout">
+            <WebView
+                android:id="@+id/webViewPrivacyPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

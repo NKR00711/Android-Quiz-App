@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("kotlin-parcelize")
     kotlin("plugin.serialization") version "2.0.21"
+    alias(libs.plugins.google.firebase.crashlytics)
 //    id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -16,19 +17,38 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
+        debug {
+//            applicationIdSuffix = ".debug"
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+//            signingConfig = signingConfigs.getByName("nkr")
         }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+//            signingConfig = signingConfigs.getByName("nkr")
+        }
+//        release {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
     }
     viewBinding {
         enable = true
@@ -48,6 +68,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    //Update
+    implementation("com.google.android.play:app-update:2.1.0")
+
+    // For Kotlin users also import the Kotlin extensions library for Play In-App Update:
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
     //Image
     implementation(libs.coil)
 //    implementation(libs.coil.network.okhttp)
@@ -68,6 +93,10 @@ dependencies {
 //    implementation("com.intuit.ssp:ssp-android:1.1.1")
     //shimmer
     implementation(libs.shimmer)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.0") // For LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0") // For ViewModel
+    implementation(libs.firebase.crashlytics)
+//    implementation(libs.firebase.inappmessaging.display)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

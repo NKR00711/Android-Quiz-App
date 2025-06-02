@@ -6,7 +6,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +20,9 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.grinstitute.quiz.MainActivity
@@ -313,5 +319,36 @@ fun MainActivity.setGoBackButton(){
     this.binding.toolbar.navigationIcon?.setTint(ContextCompat.getColor(this.applicationContext, R.color.white))
     this.binding.toolbar.setNavigationOnClickListener {
         this.supportFragmentManager.popUp(this)
+    }
+}
+
+fun Context.launchApp(packageName: String) {
+    val packageManager: PackageManager = packageManager
+    val launchIntent: Intent? = packageManager.getLaunchIntentForPackage(packageName)
+
+    if (launchIntent != null) {
+        startActivity(launchIntent)
+    } else {
+        Toast.makeText(this,getString(R.string.app_not_installed),Toast.LENGTH_SHORT).show()
+        val playMoreAppUrl: String? = getString(R.string.play_store_app, packageName)
+        if (playMoreAppUrl != null) {
+            startActivity(Intent(Intent.ACTION_VIEW, playMoreAppUrl.toUri()))
+        }
+    }
+}
+
+class NetworkObserver(private val context: Context) : LiveData<Boolean>() {
+
+    private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    override fun onActive() {
+        super.onActive()
+        postValue(isNetworkAvailable())
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 }
